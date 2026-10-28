@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="wall2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2D3748"/>
+      <stop offset="100%" stop-color="#1A202C"/>
+    </linearGradient>
+    <linearGradient id="goldAccent2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F6E05E"/>
+      <stop offset="100%" stop-color="#B7791F"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#wall2)"/>
+  <polygon points="0,300 600,300 600,400 0,400" fill="#3D2914"/>
+  <!-- City Skyline Window -->
+  <rect x="40" y="50" width="220" height="230" rx="4" fill="#0B132B" stroke="#D4AF37" stroke-width="2"/>
+  <rect x="60" y="120" width="30" height="150" fill="#1C2541"/>
+  <rect x="110" y="90" width="40" height="180" fill="#3A506B"/>
+  <rect x="170" y="140" width="35" height="130" fill="#1C2541"/>
+  <!-- Penthouse Bed -->
+  <rect x="290" y="160" width="270" height="140" rx="6" fill="#1A365D" stroke="#D4AF37" stroke-width="2"/>
+  <rect x="300" y="210" width="250" height="90" rx="6" fill="#EDF2F7"/>
+  <rect x="300" y="270" width="250" height="30" fill="url(#goldAccent2)"/>
+  <rect x="320" y="180" width="90" height="35" rx="3" fill="#FFFFFF"/>
+  <rect x="435" y="180" width="90" height="35" rx="3" fill="#FFFFFF"/>
+  <!-- Designer Lamp -->
+  <circle cx="280" cy="180" r="16" fill="#D4AF37" opacity="0.3"/>
+  <circle cx="280" cy="180" r="8" fill="#FAF089"/>
+  <line x1="280" y1="180" x2="280" y2="300" stroke="#CBD5E0" stroke-width="2"/>
+</svg>
+

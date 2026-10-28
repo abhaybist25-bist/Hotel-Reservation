@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#060E18" />
+      <stop offset="60%" stop-color="#0B192C" />
+      <stop offset="100%" stop-color="#1E3E62" />
+    </linearGradient>
+    <linearGradient id="goldHaze" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(212,175,55,0.05)" />
+      <stop offset="50%" stop-color="rgba(212,175,55,0.25)" />
+      <stop offset="100%" stop-color="rgba(212,175,55,0.05)" />
+    </linearGradient>
+    <linearGradient id="seaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142D4C" />
+      <stop offset="100%" stop-color="#081422" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky Background -->
+  <rect width="1600" height="800" fill="url(#skyGrad)"/>
+
+  <!-- Stars -->
+  <circle cx="200" cy="120" r="1.5" fill="#FFE082" opacity="0.8"/>
+  <circle cx="450" cy="90" r="1" fill="#FFF" opacity="0.6"/>
+  <circle cx="820" cy="140" r="2" fill="#FFE082" opacity="0.7"/>
+  <circle cx="1180" cy="80" r="1.5" fill="#FFF" opacity="0.8"/>
+  <circle cx="1420" cy="160" r="1" fill="#FFE082" opacity="0.6"/>
+
+  <!-- Moon glow -->
+  <circle cx="1300" cy="220" r="45" fill="#D4AF37" opacity="0.15" filter="blur(20px)"/>
+  <circle cx="1300" cy="220" r="28" fill="#FFFBEB" opacity="0.9"/>
+
+  <!-- Ocean Horizon -->
+  <rect y="480" width="1600" height="320" fill="url(#seaGrad)"/>
+  <ellipse cx="1300" cy="560" rx="120" ry="8" fill="#D4AF37" opacity="0.25"/>
+
+  <!-- Distant Islands -->
+  <path d="M0 480 Q150 440 320 480 Q450 455 600 480 Z" fill="#0A1626" opacity="0.8"/>
+
+  <!-- Hotel Complex Silhouette & Architecture -->
+  <path d="M480 480 L480 240 L780 240 L780 280 L1080 280 L1080 480 Z" fill="#08121F"/>
+  <path d="M780 240 L780 180 L880 180 L880 240 Z" fill="#060E18"/>
+
+  <!-- Gold lit balconies and windows -->
+  <g fill="#D4AF37" opacity="0.75">
+    <!-- Tower floors -->
+    <rect x="520" y="270" width="40" height="25" rx="3"/>
+    <rect x="580" y="270" width="40" height="25" rx="3"/>
+    <rect x="640" y="270" width="40" height="25" rx="3"/>
+    <rect x="700" y="270" width="40" height="25" rx="3"/>
+
+    <rect x="520" y="320" width="40" height="25" rx="3"/>
+    <rect x="580" y="320" width="40" height="25" rx="3"/>
+    <rect x="640" y="320" width="40" height="25" rx="3"/>
+    <rect x="700" y="320" width="40" height="25" rx="3"/>
+
+    <rect x="520" y="370" width="40" height="25" rx="3"/>
+    <rect x="580" y="370" width="40" height="25" rx="3"/>
+    <rect x="640" y="370" width="40" height="25" rx="3"/>
+    <rect x="700" y="370" width="40" height="25" rx="3"/>
+
+    <rect x="520" y="420" width="40" height="25" rx="3"/>
+    <rect x="580" y="420" width="40" height="25" rx="3"/>
+    <rect x="640" y="420" width="40" height="25" rx="3"/>
+    <rect x="700" y="420" width="40" height="25" rx="3"/>
+
+    <!-- Wing 2 -->
+    <rect x="820" y="310" width="40" height="25" rx="3"/>
+    <rect x="880" y="310" width="40" height="25" rx="3"/>
+    <rect x="940" y="310" width="40" height="25" rx="3"/>
+    <rect x="1000" y="310" width="40" height="25" rx="3"/>
+
+    <rect x="820" y="360" width="40" height="25" rx="3"/>
+    <rect x="880" y="360" width="40" height="25" rx="3"/>
+    <rect x="940" y="360" width="40" height="25" rx="3"/>
+    <rect x="1000" y="360" width="40" height="25" rx="3"/>
+
+    <rect x="820" y="410" width="40" height="25" rx="3"/>
+    <rect x="880" y="410" width="40" height="25" rx="3"/>
+    <rect x="940" y="410" width="40" height="25" rx="3"/>
+    <rect x="1000" y="410" width="40" height="25" rx="3"/>
+  </g>
+
+  <!-- Palm Trees Silhouette -->
+  <g fill="#040910">
+    <!-- Left Palm -->
+    <path d="M220 540 Q250 420 280 340 L290 340 Q265 425 240 540 Z"/>
+    <path d="M285 340 Q340 310 400 330 Q330 340 285 340 Z"/>
+    <path d="M285 340 Q320 270 380 260 Q325 300 285 340 Z"/>
+    <path d="M285 340 Q270 260 250 240 Q265 290 285 340 Z"/>
+    <path d="M285 340 Q220 280 180 310 Q240 320 285 340 Z"/>
+
+    <!-- Right Palm -->
+    <path d="M1360 540 Q1330 430 1310 350 L1320 350 Q1340 430 1380 540 Z"/>
+    <path d="M1315 350 Q1260 320 1200 340 Q1270 350 1315 350 Z"/>
+    <path d="M1315 350 Q1280 280 1220 270 Q1275 310 1315 350 Z"/>
+    <path d="M1315 350 Q1340 270 1370 250 Q1350 300 1315 350 Z"/>
+    <path d="M1315 350 Q1380 290 1420 320 Q1360 330 1315 350 Z"/>
+  </g>
+
+  <!-- Beachfront & Pool Reflection -->
+  <rect y="480" width="1600" height="8" fill="#D4AF37" opacity="0.3"/>
+  <rect y="510" width="1600" height="4" fill="#D4AF37" opacity="0.15"/>
+</svg>
+

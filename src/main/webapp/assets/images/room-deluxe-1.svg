@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="wall3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E3E62"/>
+      <stop offset="100%" stop-color="#0B192C"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#wall3)"/>
+  <polygon points="0,295 600,295 600,400 0,400" fill="#2D3748"/>
+  <!-- Ocean Window -->
+  <rect x="50" y="40" width="500" height="150" rx="4" fill="#0284C7" stroke="#FFFFFF" stroke-width="3"/>
+  <polygon points="50,130 550,130 550,190 50,190" fill="#0369A1"/>
+  <ellipse cx="300" cy="80" rx="80" ry="12" fill="#BAE6FD" opacity="0.6"/>
+  <!-- King Bed -->
+  <rect x="150" y="180" width="300" height="120" rx="8" fill="#1F2937" stroke="#D4AF37" stroke-width="2"/>
+  <rect x="160" y="220" width="280" height="80" rx="6" fill="#F8FAFC"/>
+  <rect x="160" y="270" width="280" height="30" fill="#0284C7"/>
+  <!-- Pillows -->
+  <rect x="180" y="195" width="105" height="35" rx="4" fill="#FFFFFF"/>
+  <rect x="315" y="195" width="105" height="35" rx="4" fill="#FFFFFF"/>
+  <!-- Nightstands -->
+  <rect x="80" y="235" width="50" height="60" rx="4" fill="#374151"/>
+  <rect x="470" y="235" width="50" height="60" rx="4" fill="#374151"/>
+</svg>
+

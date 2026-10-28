@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="wall7" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#wall7)"/>
+  <polygon points="0,295 600,295 600,400 0,400" fill="#292524"/>
+  <!-- Courtyard Window -->
+  <rect x="360" y="50" width="180" height="200" fill="#E2E8F0" stroke="#94A3B8" stroke-width="2"/>
+  <line x1="450" y1="50" x2="450" y2="250" stroke="#94A3B8" stroke-width="2"/>
+  <line x1="360" y1="150" x2="540" y2="150" stroke="#94A3B8" stroke-width="2"/>
+  <!-- Classic King Bed -->
+  <rect x="70" y="170" width="240" height="125" rx="6" fill="#1E293B" stroke="#D4AF37" stroke-width="2"/>
+  <rect x="80" y="220" width="220" height="75" rx="4" fill="#FFFFFF"/>
+  <rect x="80" y="265" width="220" height="30" fill="#D4AF37"/>
+  <rect x="95" y="190" width="80" height="30" rx="3" fill="#F1F5F9"/>
+  <rect x="205" y="190" width="80" height="30" rx="3" fill="#F1F5F9"/>
+  <!-- Bedside Lamp -->
+  <polygon points="30,220 50,220 55,235 25,235" fill="#D4AF37"/>
+  <rect x="20" y="245" width="40" height="50" fill="#1E293B"/>
+</svg>
+

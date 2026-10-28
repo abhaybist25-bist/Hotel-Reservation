@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="wall4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#14532D"/>
+      <stop offset="100%" stop-color="#052E16"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#wall4)"/>
+  <polygon points="0,290 600,290 600,400 0,400" fill="#78350F"/>
+  <!-- Garden Patio Doors -->
+  <rect x="50" y="40" width="220" height="250" fill="#15803D" stroke="#D4AF37" stroke-width="2"/>
+  <rect x="60" y="50" width="95" height="230" fill="#22C55E" opacity="0.4"/>
+  <rect x="165" y="50" width="95" height="230" fill="#22C55E" opacity="0.4"/>
+  <!-- Two Queen Beds -->
+  <rect x="300" y="180" width="125" height="110" rx="4" fill="#1F2937" stroke="#D4AF37" stroke-width="1.5"/>
+  <rect x="305" y="220" width="115" height="70" fill="#FFFFFF"/>
+  <rect x="315" y="195" width="95" height="25" rx="3" fill="#E2E8F0"/>
+
+  <rect x="445" y="180" width="125" height="110" rx="4" fill="#1F2937" stroke="#D4AF37" stroke-width="1.5"/>
+  <rect x="450" y="220" width="115" height="70" fill="#FFFFFF"/>
+  <rect x="460" y="195" width="95" height="25" rx="3" fill="#E2E8F0"/>
+</svg>
+

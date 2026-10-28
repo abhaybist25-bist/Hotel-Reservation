@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="wall8" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3F3F46"/>
+      <stop offset="100%" stop-color="#27272A"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#wall8)"/>
+  <polygon points="0,290 600,290 600,400 0,400" fill="#1C1917"/>
+  <!-- Two Twin Beds -->
+  <rect x="80" y="170" width="180" height="120" rx="4" fill="#18181B" stroke="#D4AF37" stroke-width="1.5"/>
+  <rect x="90" y="210" width="160" height="80" fill="#FFFFFF"/>
+  <rect x="90" y="260" width="160" height="30" fill="#71717A"/>
+  <rect x="105" y="185" width="130" height="25" fill="#E4E4E7"/>
+
+  <rect x="340" y="170" width="180" height="120" rx="4" fill="#18181B" stroke="#D4AF37" stroke-width="1.5"/>
+  <rect x="350" y="210" width="160" height="80" fill="#FFFFFF"/>
+  <rect x="350" y="260" width="160" height="30" fill="#71717A"/>
+  <rect x="365" y="185" width="130" height="25" fill="#E4E4E7"/>
+  <!-- Center Nightstand -->
+  <rect x="280" y="220" width="40" height="70" fill="#27272A"/>
+  <polygon points="290,200 310,200 315,215 285,215" fill="#D4AF37"/>
+</svg>
+

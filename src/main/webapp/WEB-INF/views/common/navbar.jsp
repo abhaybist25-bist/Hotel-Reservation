@@ -22,15 +22,27 @@
                         <c:if test="${sessionScope.currentUser.role == 'ADMIN'}">
                             <li><a href="${pageContext.request.contextPath}/admin/dashboard" class="btn btn-outline-gold btn-sm">Admin Portal</a></li>
                         </c:if>
+                        <c:if test="${sessionScope.currentUser.role == 'HOTEL'}">
+                            <li><a href="${pageContext.request.contextPath}/hotel/dashboard" class="btn btn-outline-gold btn-sm">Hotel Portal</a></li>
+                        </c:if>
                         <c:if test="${sessionScope.currentUser.role == 'CUSTOMER'}">
                             <li><a href="${pageContext.request.contextPath}/customer/dashboard" class="${currentNav == 'dashboard' ? 'active' : ''}">Dashboard</a></li>
                             <li><a href="${pageContext.request.contextPath}/customer/bookings" class="${currentNav == 'bookings' ? 'active' : ''}">My Reservations</a></li>
                         </c:if>
                         <li>
                             <div class="nav-user">
-                                <a href="${pageContext.request.contextPath}/customer/profile" class="btn btn-outline-gold btn-sm">
-                                    <span>&#128100; ${sessionScope.currentUser.fullName}</span>
-                                </a>
+                                <c:choose>
+                                    <c:when test="${sessionScope.currentUser.role == 'HOTEL'}">
+                                        <a href="${pageContext.request.contextPath}/hotel/profile" class="btn btn-outline-gold btn-sm">
+                                            <span>&#127976; ${sessionScope.currentUser.fullName}</span>
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${pageContext.request.contextPath}/customer/profile" class="btn btn-outline-gold btn-sm">
+                                            <span>&#128100; ${sessionScope.currentUser.fullName}</span>
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
                                 <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline;">
                                     <input type="hidden" name="_csrf" value="${sessionScope.CSRF_TOKEN}">
                                     <button type="submit" class="btn btn-outline-primary btn-sm">Sign Out</button>

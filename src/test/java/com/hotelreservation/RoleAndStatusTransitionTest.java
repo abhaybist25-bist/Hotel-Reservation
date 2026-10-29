@@ -1,4 +1,4 @@
-lopackage com.hotelreservation;
+package com.hotelreservation;
 
 import com.hotelreservation.model.BookingStatus;
 import com.hotelreservation.model.Role;
@@ -15,6 +15,7 @@ public class RoleAndStatusTransitionTest {
     public void testRoleResolution() {
         assertEquals(Role.CUSTOMER, Role.fromString("CUSTOMER"));
         assertEquals(Role.ADMIN, Role.fromString("ADMIN"));
+        assertEquals(Role.HOTEL, Role.fromString("HOTEL"));
         assertEquals(Role.CUSTOMER, Role.fromString("unknown"));
         assertEquals(Role.CUSTOMER, Role.fromString(null));
     }

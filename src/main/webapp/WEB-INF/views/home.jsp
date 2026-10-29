@@ -88,6 +88,11 @@
                         </div>
 
                         <div class="room-card-body">
+                            <c:if test="${not empty room.hotelName}">
+                                <div style="font-size: 0.8rem; color: var(--color-gold-dark); font-weight: 600; margin-bottom: 0.35rem;">
+                                    &#127976; ${room.hotelName}
+                                </div>
+                            </c:if>
                             <h3 class="room-card-title">${room.title}</h3>
                             <p class="room-card-desc">${room.description}</p>
 

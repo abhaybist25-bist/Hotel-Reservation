@@ -122,6 +122,9 @@ public class BookingService {
                     breakdown.getTotalAmount()
             );
 
+            booking.setHotelId(room.getHotelId());
+            booking.setHotelName(room.getHotelName());
+
             boolean created = bookingDAO.create(booking);
             if (!created) {
                 throw new IllegalStateException("Database error while confirming reservation. Please try again.");
@@ -286,6 +289,24 @@ public class BookingService {
         }
 
         return booking;
+    }
+
+    /**
+     * Retrieves reservations for a specific hotel, fully populated with customer and room details.
+     */
+    public List<Booking> getBookingsForHotel(ObjectId hotelId, int skip, int limit) {
+        List<Booking> bookings = bookingDAO.findByHotelId(hotelId, skip, limit);
+        for (Booking b : bookings) {
+            populateBookingDetails(b);
+        }
+        return bookings;
+    }
+
+    /**
+     * Counts reservations for a specific hotel.
+     */
+    public long countBookingsForHotel(ObjectId hotelId) {
+        return bookingDAO.countByHotelId(hotelId);
     }
 }
 

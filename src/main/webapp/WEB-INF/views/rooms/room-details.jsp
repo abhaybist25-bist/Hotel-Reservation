@@ -28,6 +28,11 @@
                     </div>
                 </div>
 
+                <c:if test="${not empty room.hotelName}">
+                    <div style="font-size: 1rem; color: var(--color-gold-dark); font-weight: 600; margin-bottom: 0.5rem;">
+                        &#127976; Provided by ${room.hotelName}
+                    </div>
+                </c:if>
                 <h1 style="font-size: 2.25rem; margin-bottom: 1rem;">${room.title}</h1>
 
                 <div style="display: flex; gap: 2rem; margin-bottom: 2rem; padding: 1.25rem; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border);">

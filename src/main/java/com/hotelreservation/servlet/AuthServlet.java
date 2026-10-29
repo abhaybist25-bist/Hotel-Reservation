@@ -29,7 +29,13 @@ public class AuthServlet extends HttpServlet {
                 HttpSession session = request.getSession(false);
                 if (session != null && session.getAttribute("currentUser") != null) {
                     User user = (User) session.getAttribute("currentUser");
-                    response.sendRedirect(request.getContextPath() + (user.isAdmin() ? "/admin/dashboard" : "/customer/dashboard"));
+                    if (user.isAdmin()) {
+                        response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                    } else if (user.isHotel()) {
+                        response.sendRedirect(request.getContextPath() + "/hotel/dashboard");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/customer/dashboard");
+                    }
                     return;
                 }
                 request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
@@ -79,6 +85,8 @@ public class AuthServlet extends HttpServlet {
                 response.sendRedirect(redirectUrl);
             } else if (user.isAdmin()) {
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+            } else if (user.isHotel()) {
+                response.sendRedirect(request.getContextPath() + "/hotel/dashboard");
             } else {
                 response.sendRedirect(request.getContextPath() + "/customer/dashboard");
             }
@@ -92,16 +100,27 @@ public class AuthServlet extends HttpServlet {
 
     private void handleRegister(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String accountType = request.getParameter("accountType");
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        try {
-            User user = authService.registerCustomer(fullName, email, phone, password, confirmPassword);
+        String hotelName = request.getParameter("hotelName");
+        String hotelCity = request.getParameter("hotelCity");
+        String hotelAddress = request.getParameter("hotelAddress");
 
-            // Invalidate session and establish fresh customer session
+        try {
+            User user;
+            if ("hotel".equalsIgnoreCase(accountType)) {
+                user = authService.registerHotelPartner(fullName, email, phone, password, confirmPassword,
+                        hotelName, hotelCity, hotelAddress);
+            } else {
+                user = authService.registerCustomer(fullName, email, phone, password, confirmPassword);
+            }
+
+            // Invalidate session and establish fresh session
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
                 oldSession.invalidate();
@@ -109,16 +128,25 @@ public class AuthServlet extends HttpServlet {
 
             HttpSession newSession = request.getSession(true);
             newSession.setAttribute("currentUser", user);
-            newSession.setAttribute("flashSuccess", "Registration successful! Welcome to " +
-                    getServletContext().getAttribute("hotelName") + ".");
 
-            response.sendRedirect(request.getContextPath() + "/customer/dashboard");
+            if (user.isHotel()) {
+                newSession.setAttribute("flashSuccess", "Hotel partner registration successful! Welcome to your property dashboard.");
+                response.sendRedirect(request.getContextPath() + "/hotel/dashboard");
+            } else {
+                newSession.setAttribute("flashSuccess", "Registration successful! Welcome to " +
+                        getServletContext().getAttribute("hotelName") + ".");
+                response.sendRedirect(request.getContextPath() + "/customer/dashboard");
+            }
 
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", e.getMessage());
+            request.setAttribute("accountType", accountType);
             request.setAttribute("fullName", fullName);
             request.setAttribute("email", email);
             request.setAttribute("phone", phone);
+            request.setAttribute("hotelName", hotelName);
+            request.setAttribute("hotelCity", hotelCity);
+            request.setAttribute("hotelAddress", hotelAddress);
             request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
         }
     }

@@ -172,5 +172,25 @@ public class RoomService {
 
         return roomDAO.delete(roomId);
     }
+
+    /**
+     * Retrieves all rooms belonging to a specific hotel.
+     */
+    public List<Room> getRoomsByHotelId(ObjectId hotelId, boolean onlyActive) {
+        if (hotelId == null) {
+            return new ArrayList<>();
+        }
+        return roomDAO.findByHotelId(hotelId, onlyActive);
+    }
+
+    /**
+     * Counts rooms belonging to a specific hotel.
+     */
+    public long countRoomsByHotelId(ObjectId hotelId) {
+        if (hotelId == null) {
+            return 0;
+        }
+        return roomDAO.countByHotelId(hotelId);
+    }
 }
 

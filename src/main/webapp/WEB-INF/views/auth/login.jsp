@@ -35,9 +35,11 @@
             </button>
         </form>
 
-        <div style="background-color: var(--color-gold-light); border: 1px dashed var(--color-gold); border-radius: var(--radius-md); padding: 1rem; margin-top: 1.5rem; font-size: 0.85rem;">
-            <strong>Staff / Testing Credentials:</strong><br>
-            Administrator: <code>admin@hotelreservation.com</code> &bull; <code>Admin@12345</code>
+        <div style="background-color: var(--color-gold-light); border: 1px dashed var(--color-gold); border-radius: var(--radius-md); padding: 1rem; margin-top: 1.5rem; font-size: 0.85rem; line-height: 1.6;">
+            <strong>Demo / Testing Credentials:</strong><br>
+            &#127976; <strong>Hotel 1 (The Grand Azure):</strong> <code>partner@grandazure.com</code> &bull; <code>Partner@123</code><br>
+            &#127976; <strong>Hotel 2 (Ocean Breeze Resort):</strong> <code>partner@oceanbreeze.com</code> &bull; <code>Partner@123</code><br>
+            &#128100; <strong>System Admin:</strong> <code>admin@hotelreservation.com</code> &bull; <code>Admin@12345</code>
         </div>
 
         <div class="auth-footer">

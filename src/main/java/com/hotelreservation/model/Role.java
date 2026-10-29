@@ -5,7 +5,8 @@ package com.hotelreservation.model;
  */
 public enum Role {
     CUSTOMER("Customer"),
-    ADMIN("Administrator");
+    ADMIN("Administrator"),
+    HOTEL("Hotel Partner");
 
     private final String displayName;
 

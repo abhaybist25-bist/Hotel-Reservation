@@ -82,6 +82,19 @@ public class UserDAO {
         }
     }
 
+    public boolean updateHotelId(ObjectId userId, ObjectId hotelId) {
+        if (userId == null) {
+            return false;
+        }
+        try {
+            getCollection().updateOne(eq("_id", userId), new Document("$set", new Document("hotelId", hotelId).append("updatedAt", new Date())));
+            return true;
+        } catch (MongoException e) {
+            LOGGER.log(Level.SEVERE, "Error updating user hotelId", e);
+            return false;
+        }
+    }
+
     /**
      * Finds a user by their normalized email address.
      */
@@ -172,6 +185,9 @@ public class UserDAO {
         doc.append("phone", user.getPhone());
         doc.append("passwordHash", user.getPasswordHash());
         doc.append("role", user.getRole() != null ? user.getRole().name() : Role.CUSTOMER.name());
+        if (user.getHotelId() != null) {
+            doc.append("hotelId", user.getHotelId());
+        }
         doc.append("createdAt", user.getCreatedAt() != null ? user.getCreatedAt() : new Date());
         doc.append("updatedAt", user.getUpdatedAt() != null ? user.getUpdatedAt() : new Date());
         return doc;
@@ -189,6 +205,7 @@ public class UserDAO {
         user.setPhone(doc.getString("phone"));
         user.setPasswordHash(doc.getString("passwordHash"));
         user.setRole(Role.fromString(doc.getString("role")));
+        user.setHotelId(doc.getObjectId("hotelId"));
         user.setCreatedAt(doc.getDate("createdAt"));
         user.setUpdatedAt(doc.getDate("updatedAt"));
         return user;

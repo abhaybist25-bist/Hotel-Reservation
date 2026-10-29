@@ -15,6 +15,8 @@ public class Booking implements Serializable {
     private String bookingNumber;
     private ObjectId userId;
     private ObjectId roomId;
+    private ObjectId hotelId;
+    private String hotelName;
     private String checkIn;   // ISO-8601 date string YYYY-MM-DD
     private String checkOut;  // ISO-8601 date string YYYY-MM-DD
     private int numberOfGuests;
@@ -108,6 +110,26 @@ public class Booking implements Serializable {
 
     public String getRoomIdString() {
         return roomId != null ? roomId.toHexString() : null;
+    }
+
+    public ObjectId getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(ObjectId hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public String getHotelIdString() {
+        return hotelId != null ? hotelId.toHexString() : null;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
     }
 
     public String getCheckIn() {

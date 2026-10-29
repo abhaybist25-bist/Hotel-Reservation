@@ -17,6 +17,7 @@ public class User implements Serializable {
     private String phone;
     private String passwordHash;
     private Role role;
+    private ObjectId hotelId;
     private Date createdAt;
     private Date updatedAt;
 
@@ -106,6 +107,22 @@ public class User implements Serializable {
 
     public boolean isCustomer() {
         return this.role == Role.CUSTOMER;
+    }
+
+    public boolean isHotel() {
+        return this.role == Role.HOTEL;
+    }
+
+    public ObjectId getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(ObjectId hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public String getHotelIdString() {
+        return hotelId != null ? hotelId.toHexString() : null;
     }
 
     public Date getCreatedAt() {

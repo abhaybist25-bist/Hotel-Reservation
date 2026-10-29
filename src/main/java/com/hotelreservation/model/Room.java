@@ -14,6 +14,8 @@ public class Room implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private ObjectId id;
+    private ObjectId hotelId;
+    private String hotelName;
     private String roomNumber;
     private RoomType roomType;
     private String title;
@@ -58,6 +60,26 @@ public class Room implements Serializable {
 
     public String getIdString() {
         return id != null ? id.toHexString() : null;
+    }
+
+    public ObjectId getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(ObjectId hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public String getHotelIdString() {
+        return hotelId != null ? hotelId.toHexString() : null;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
     }
 
     public String getRoomNumber() {

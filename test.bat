@@ -40,5 +40,5 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 echo [INFO] Executing JUnit 4 test runner...
-"%JAVA%" -cp "%CP%" org.junit.runner.JUnitCore com.hotelreservation.DateUtilTest com.hotelreservation.BookingCostBreakdownTest com.hotelreservation.PasswordUtilTest com.hotelreservation.ValidationUtilTest com.hotelreservation.RoleAndStatusTransitionTest com.hotelreservation.BookingServiceLogicTest
+"%JAVA%" -cp "%CP%" org.junit.runner.JUnitCore com.hotelreservation.DateUtilTest com.hotelreservation.BookingCostBreakdownTest com.hotelreservation.PasswordUtilTest com.hotelreservation.ValidationUtilTest com.hotelreservation.RoleAndStatusTransitionTest com.hotelreservation.BookingServiceLogicTest com.hotelreservation.HotelServiceTest
 

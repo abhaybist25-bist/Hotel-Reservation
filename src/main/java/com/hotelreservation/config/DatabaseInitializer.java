@@ -31,6 +31,7 @@ public final class DatabaseInitializer {
     public static final String USERS_COLLECTION = "users";
     public static final String ROOMS_COLLECTION = "rooms";
     public static final String BOOKINGS_COLLECTION = "bookings";
+    public static final String HOTELS_COLLECTION = "hotels";
 
     private DatabaseInitializer() {
         // Prevent instantiation
@@ -46,6 +47,7 @@ public final class DatabaseInitializer {
 
             createCollectionsAndIndexes(db);
             seedBootstrapAdmin(db);
+            seedBootstrapHotelsAndManagers(db);
             seedSampleRooms(db);
 
             LOGGER.info("MongoDB database initialization completed successfully.");
@@ -61,6 +63,7 @@ public final class DatabaseInitializer {
         MongoCollection<Document> usersColl = db.getCollection(USERS_COLLECTION);
         MongoCollection<Document> roomsColl = db.getCollection(ROOMS_COLLECTION);
         MongoCollection<Document> bookingsColl = db.getCollection(BOOKINGS_COLLECTION);
+        MongoCollection<Document> hotelsColl = db.getCollection(HOTELS_COLLECTION);
 
         // 1. users: unique index on normalizedEmail
         usersColl.createIndex(
@@ -73,16 +76,31 @@ public final class DatabaseInitializer {
                 Indexes.ascending("roomNumber"),
                 new IndexOptions().unique(true).name("idx_rooms_room_number")
         );
+        roomsColl.createIndex(
+                Indexes.ascending("hotelId"),
+                new IndexOptions().name("idx_rooms_hotel_id")
+        );
 
-        // 3. bookings: unique index on bookingNumber
+        // 3. hotels: indexes on managerUserId and city
+        hotelsColl.createIndex(
+                Indexes.ascending("managerUserId"),
+                new IndexOptions().name("idx_hotels_manager_user_id")
+        );
+        hotelsColl.createIndex(
+                Indexes.ascending("city"),
+                new IndexOptions().name("idx_hotels_city")
+        );
+
+        // 4. bookings: unique index on bookingNumber
         bookingsColl.createIndex(
                 Indexes.ascending("bookingNumber"),
                 new IndexOptions().unique(true).name("idx_bookings_booking_number")
         );
 
-        // 4. bookings: secondary indexes for query performance
+        // 5. bookings: secondary indexes for query performance
         bookingsColl.createIndex(Indexes.ascending("userId"), new IndexOptions().name("idx_bookings_user_id"));
         bookingsColl.createIndex(Indexes.ascending("roomId"), new IndexOptions().name("idx_bookings_room_id"));
+        bookingsColl.createIndex(Indexes.ascending("hotelId"), new IndexOptions().name("idx_bookings_hotel_id"));
         bookingsColl.createIndex(Indexes.ascending("status"), new IndexOptions().name("idx_bookings_status"));
 
         // Compound index for availability conflict checking: (roomId, status, checkIn, checkOut)
@@ -124,6 +142,156 @@ public final class DatabaseInitializer {
             LOGGER.info("Bootstrap administrator account seeded successfully: " + adminEmail);
         } else {
             LOGGER.info("Administrator account already present. Skipping admin seeding.");
+        }
+    }
+
+    private static void seedBootstrapHotelsAndManagers(MongoDatabase db) {
+        MongoCollection<Document> usersColl = db.getCollection(USERS_COLLECTION);
+        MongoCollection<Document> hotelsColl = db.getCollection(HOTELS_COLLECTION);
+        MongoCollection<Document> roomsColl = db.getCollection(ROOMS_COLLECTION);
+
+        // 1. Hotel Partner 1: The Grand Azure Hotel & Suites
+        Document azureUser = usersColl.find(eq("normalizedEmail", "partner@grandazure.com")).first();
+        org.bson.types.ObjectId azureUserId;
+        if (azureUser == null) {
+            azureUserId = new org.bson.types.ObjectId();
+            Document doc = new Document()
+                    .append("_id", azureUserId)
+                    .append("fullName", "Grand Azure Management")
+                    .append("email", "partner@grandazure.com")
+                    .append("normalizedEmail", "partner@grandazure.com")
+                    .append("phone", "+1 (800) 555-0199")
+                    .append("passwordHash", PasswordUtil.hashPassword("Partner@123"))
+                    .append("role", Role.HOTEL.name())
+                    .append("createdAt", new Date())
+                    .append("updatedAt", new Date());
+            usersColl.insertOne(doc);
+            LOGGER.info("Seeded Hotel Partner 1 account: partner@grandazure.com / Partner@123");
+        } else {
+            azureUserId = azureUser.getObjectId("_id");
+        }
+
+        Document azureHotel = hotelsColl.find(eq("name", "The Grand Azure Hotel & Suites")).first();
+        org.bson.types.ObjectId azureHotelId;
+        if (azureHotel == null) {
+            azureHotelId = new org.bson.types.ObjectId();
+            Document doc = new Document()
+                    .append("_id", azureHotelId)
+                    .append("managerUserId", azureUserId)
+                    .append("name", "The Grand Azure Hotel & Suites")
+                    .append("description", "A five-star beachfront luxury haven featuring panoramic oceanfront views, world-class dining, and tailored butler services.")
+                    .append("address", "100 Oceanfront Promenade")
+                    .append("city", "Azure Bay")
+                    .append("state", "California")
+                    .append("country", "United States")
+                    .append("phone", "+1 (800) 555-0199")
+                    .append("email", "reservations@grandazure.com")
+                    .append("starRating", 5)
+                    .append("amenities", Arrays.asList("Free High-Speed Wi-Fi", "Infinity Swimming Pool", "Luxury Spa & Wellness", "Fine Dining Restaurant", "Valet Parking", "24/7 Butler Service", "Oceanfront Access"))
+                    .append("imageUrl", "assets/images/hero-hotel.svg")
+                    .append("checkInTime", "15:00")
+                    .append("checkOutTime", "11:00")
+                    .append("active", true)
+                    .append("createdAt", new Date())
+                    .append("updatedAt", new Date());
+            hotelsColl.insertOne(doc);
+            LOGGER.info("Seeded Hotel 1: The Grand Azure Hotel & Suites");
+        } else {
+            azureHotelId = azureHotel.getObjectId("_id");
+        }
+
+        // Link manager user to hotel
+        usersColl.updateOne(eq("_id", azureUserId), new Document("$set", new Document("hotelId", azureHotelId)));
+
+        // Link existing rooms that don't have hotelId to Grand Azure Hotel
+        roomsColl.updateMany(
+                com.mongodb.client.model.Filters.or(
+                        com.mongodb.client.model.Filters.exists("hotelId", false),
+                        eq("hotelId", null)
+                ),
+                new Document("$set", new Document("hotelId", azureHotelId).append("hotelName", "The Grand Azure Hotel & Suites"))
+        );
+
+        // 2. Hotel Partner 2: Ocean Breeze Resort & Spa
+        Document breezeUser = usersColl.find(eq("normalizedEmail", "partner@oceanbreeze.com")).first();
+        org.bson.types.ObjectId breezeUserId;
+        if (breezeUser == null) {
+            breezeUserId = new org.bson.types.ObjectId();
+            Document doc = new Document()
+                    .append("_id", breezeUserId)
+                    .append("fullName", "Ocean Breeze Operations")
+                    .append("email", "partner@oceanbreeze.com")
+                    .append("normalizedEmail", "partner@oceanbreeze.com")
+                    .append("phone", "+1 (305) 555-4321")
+                    .append("passwordHash", PasswordUtil.hashPassword("Partner@123"))
+                    .append("role", Role.HOTEL.name())
+                    .append("createdAt", new Date())
+                    .append("updatedAt", new Date());
+            usersColl.insertOne(doc);
+            LOGGER.info("Seeded Hotel Partner 2 account: partner@oceanbreeze.com / Partner@123");
+        } else {
+            breezeUserId = breezeUser.getObjectId("_id");
+        }
+
+        Document breezeHotel = hotelsColl.find(eq("name", "Ocean Breeze Resort & Spa")).first();
+        org.bson.types.ObjectId breezeHotelId;
+        if (breezeHotel == null) {
+            breezeHotelId = new org.bson.types.ObjectId();
+            Document doc = new Document()
+                    .append("_id", breezeHotelId)
+                    .append("managerUserId", breezeUserId)
+                    .append("name", "Ocean Breeze Resort & Spa")
+                    .append("description", "Tropical paradise nestled along Miami's premier shoreline offering sun-drenched private cabanas, tiki lounge, and ocean excursions.")
+                    .append("address", "45 Palm Boulevard")
+                    .append("city", "Miami Beach")
+                    .append("state", "Florida")
+                    .append("country", "United States")
+                    .append("phone", "+1 (305) 555-4321")
+                    .append("email", "stay@oceanbreeze.com")
+                    .append("starRating", 4)
+                    .append("amenities", Arrays.asList("Direct Beachfront Access", "Lagoon Pool", "Tiki Cocktail Lounge", "High-Speed Wi-Fi", "Water Sports Gear", "Complimentary Breakfast Buffet"))
+                    .append("imageUrl", "assets/images/hero-hotel.svg")
+                    .append("checkInTime", "14:00")
+                    .append("checkOutTime", "11:00")
+                    .append("active", true)
+                    .append("createdAt", new Date())
+                    .append("updatedAt", new Date());
+            hotelsColl.insertOne(doc);
+            LOGGER.info("Seeded Hotel 2: Ocean Breeze Resort & Spa");
+        } else {
+            breezeHotelId = breezeHotel.getObjectId("_id");
+        }
+
+        // Link manager user to hotel
+        usersColl.updateOne(eq("_id", breezeUserId), new Document("$set", new Document("hotelId", breezeHotelId)));
+
+        // Seed 2 rooms specifically for Ocean Breeze Resort if they don't already exist
+        if (roomsColl.countDocuments(eq("roomNumber", "501")) == 0) {
+            Document room501 = createRoomDoc(
+                    "501",
+                    RoomType.DELUXE,
+                    "Ocean Breeze Palm King Room",
+                    "Bright tropical sanctuary with plush king bed, private balcony overlooking the palm gardens, and signature rain shower.",
+                    new BigDecimal("210.00"),
+                    2,
+                    Arrays.asList("King Bed", "Palm Garden Balcony", "Free Wi-Fi", "Espresso Maker", "Air Conditioning"),
+                    "assets/images/room-deluxe-1.svg"
+            ).append("hotelId", breezeHotelId).append("hotelName", "Ocean Breeze Resort & Spa");
+            roomsColl.insertOne(room501);
+        }
+
+        if (roomsColl.countDocuments(eq("roomNumber", "502")) == 0) {
+            Document room502 = createRoomDoc(
+                    "502",
+                    RoomType.SUITE,
+                    "Ocean Breeze Penthouse Suite",
+                    "Top-floor penthouse with wraparound ocean balcony, private whirlpool spa, and sunset cocktail bar setup.",
+                    new BigDecimal("420.00"),
+                    4,
+                    Arrays.asList("King Bed", "Wraparound Balcony", "Private Whirlpool", "Wet Bar", "Butler Service", "Oceanfront View"),
+                    "assets/images/room-suite-2.svg"
+            ).append("hotelId", breezeHotelId).append("hotelName", "Ocean Breeze Resort & Spa");
+            roomsColl.insertOne(room502);
         }
     }
 

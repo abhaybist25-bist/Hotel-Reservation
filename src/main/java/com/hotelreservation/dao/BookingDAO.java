@@ -247,6 +247,42 @@ public class BookingDAO {
         return bookings;
     }
 
+    /**
+     * Retrieves reservations associated with a specific hotel.
+     */
+    public List<Booking> findByHotelId(ObjectId hotelId, int skip, int limit) {
+        List<Booking> bookings = new ArrayList<>();
+        if (hotelId == null) {
+            return bookings;
+        }
+        try {
+            for (Document doc : getCollection().find(eq("hotelId", hotelId))
+                    .sort(descending("createdAt"))
+                    .skip(Math.max(0, skip))
+                    .limit(Math.max(1, limit))) {
+                bookings.add(toEntity(doc));
+            }
+        } catch (MongoException e) {
+            LOGGER.log(Level.SEVERE, "Error querying bookings for hotel: " + hotelId, e);
+        }
+        return bookings;
+    }
+
+    /**
+     * Counts reservations for a specific hotel.
+     */
+    public long countByHotelId(ObjectId hotelId) {
+        if (hotelId == null) {
+            return 0;
+        }
+        try {
+            return getCollection().countDocuments(eq("hotelId", hotelId));
+        } catch (MongoException e) {
+            LOGGER.log(Level.SEVERE, "Error counting bookings for hotel: " + hotelId, e);
+            return 0;
+        }
+    }
+
     public long countAll() {
         try {
             return getCollection().countDocuments();
@@ -315,6 +351,12 @@ public class BookingDAO {
         doc.append("bookingNumber", booking.getBookingNumber());
         doc.append("userId", booking.getUserId());
         doc.append("roomId", booking.getRoomId());
+        if (booking.getHotelId() != null) {
+            doc.append("hotelId", booking.getHotelId());
+        }
+        if (booking.getHotelName() != null) {
+            doc.append("hotelName", booking.getHotelName());
+        }
         doc.append("checkIn", booking.getCheckIn());
         doc.append("checkOut", booking.getCheckOut());
         doc.append("numberOfGuests", booking.getNumberOfGuests());
@@ -341,6 +383,8 @@ public class BookingDAO {
         b.setBookingNumber(doc.getString("bookingNumber"));
         b.setUserId(doc.getObjectId("userId"));
         b.setRoomId(doc.getObjectId("roomId"));
+        b.setHotelId(doc.getObjectId("hotelId"));
+        b.setHotelName(doc.getString("hotelName"));
         b.setCheckIn(doc.getString("checkIn"));
         b.setCheckOut(doc.getString("checkOut"));
         b.setNumberOfGuests(doc.getInteger("numberOfGuests", 1));

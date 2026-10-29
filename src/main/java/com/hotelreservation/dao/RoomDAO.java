@@ -188,6 +188,8 @@ public class RoomDAO {
                     set("amenities", room.getAmenities()),
                     set("imageUrl", room.getImageUrl()),
                     set("active", room.isActive()),
+                    set("hotelId", room.getHotelId()),
+                    set("hotelName", room.getHotelName()),
                     set("updatedAt", new Date())
             );
 
@@ -232,6 +234,40 @@ public class RoomDAO {
         }
     }
 
+    /**
+     * Retrieves all rooms associated with a specific hotel.
+     */
+    public List<Room> findByHotelId(ObjectId hotelId, boolean onlyActive) {
+        List<Room> rooms = new ArrayList<>();
+        if (hotelId == null) {
+            return rooms;
+        }
+        try {
+            Bson filter = onlyActive ? and(eq("hotelId", hotelId), eq("active", true)) : eq("hotelId", hotelId);
+            for (Document doc : getCollection().find(filter).sort(ascending("roomNumber"))) {
+                rooms.add(toEntity(doc));
+            }
+        } catch (MongoException e) {
+            LOGGER.log(Level.SEVERE, "Error fetching rooms for hotel: " + hotelId, e);
+        }
+        return rooms;
+    }
+
+    /**
+     * Counts total rooms for a hotel.
+     */
+    public long countByHotelId(ObjectId hotelId) {
+        if (hotelId == null) {
+            return 0;
+        }
+        try {
+            return getCollection().countDocuments(eq("hotelId", hotelId));
+        } catch (MongoException e) {
+            LOGGER.log(Level.SEVERE, "Error counting rooms for hotel: " + hotelId, e);
+            return 0;
+        }
+    }
+
     public long countTotal() {
         try {
             return getCollection().countDocuments();
@@ -255,6 +291,12 @@ public class RoomDAO {
         if (room.getId() != null) {
             doc.append("_id", room.getId());
         }
+        if (room.getHotelId() != null) {
+            doc.append("hotelId", room.getHotelId());
+        }
+        if (room.getHotelName() != null) {
+            doc.append("hotelName", room.getHotelName());
+        }
         doc.append("roomNumber", room.getRoomNumber());
         doc.append("roomType", room.getRoomType() != null ? room.getRoomType().name() : RoomType.STANDARD.name());
         doc.append("title", room.getTitle());
@@ -275,6 +317,8 @@ public class RoomDAO {
         }
         Room room = new Room();
         room.setId(doc.getObjectId("_id"));
+        room.setHotelId(doc.getObjectId("hotelId"));
+        room.setHotelName(doc.getString("hotelName"));
         room.setRoomNumber(doc.getString("roomNumber"));
         room.setRoomType(RoomType.fromString(doc.getString("roomType")));
         room.setTitle(doc.getString("title"));

@@ -41,6 +41,12 @@ public class CsrfFilter implements Filter {
             return;
         }
 
+        // Skip CSRF check for REST API endpoints — API clients use session cookies, not CSRF tokens
+        if (path.startsWith("/api/")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         // Ensure session and CSRF token exist for GET requests
         HttpSession session = request.getSession(true);
         String csrfToken = CsrfUtil.getToken(session);

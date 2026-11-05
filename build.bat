@@ -35,7 +35,7 @@ set "JAVAC=%JAVA_HOME%\bin\javac.exe"
 set "JAR=%JAVA_HOME%\bin\jar.exe"
 
 set "M2_REPO=%USERPROFILE%\.m2\repository"
-set "CP=%M2_REPO%\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.jar;%M2_REPO%\javax\servlet\jstl\1.2\jstl-1.2.jar;%M2_REPO%\org\mongodb\mongodb-driver-sync\4.11.1\mongodb-driver-sync-4.11.1.jar;%M2_REPO%\org\mongodb\mongodb-driver-core\4.11.1\mongodb-driver-core-4.11.1.jar;%M2_REPO%\org\mongodb\bson\4.11.1\bson-4.11.1.jar;%M2_REPO%\org\mindrot\jbcrypt\0.4\jbcrypt-0.4.jar"
+set "CP=%M2_REPO%\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.jar;%M2_REPO%\javax\servlet\jstl\1.2\jstl-1.2.jar;%M2_REPO%\org\mongodb\mongodb-driver-sync\4.11.1\mongodb-driver-sync-4.11.1.jar;%M2_REPO%\org\mongodb\mongodb-driver-core\4.11.1\mongodb-driver-core-4.11.1.jar;%M2_REPO%\org\mongodb\bson\4.11.1\bson-4.11.1.jar;%M2_REPO%\org\mindrot\jbcrypt\0.4\jbcrypt-0.4.jar;%M2_REPO%\com\fasterxml\jackson\core\jackson-databind\2.17.2\jackson-databind-2.17.2.jar;%M2_REPO%\com\fasterxml\jackson\core\jackson-core\2.17.2\jackson-core-2.17.2.jar;%M2_REPO%\com\fasterxml\jackson\core\jackson-annotations\2.17.2\jackson-annotations-2.17.2.jar"
 
 if not exist "target\classes" mkdir "target\classes"
 powershell -NoProfile -Command "(Get-ChildItem -Path src\main\java -Filter *.java -Recurse | Resolve-Path -Relative) | Set-Content target\sources.txt"
@@ -61,6 +61,9 @@ copy /y "%M2_REPO%\org\mongodb\mongodb-driver-core\4.11.1\mongodb-driver-core-4.
 copy /y "%M2_REPO%\org\mongodb\bson\4.11.1\bson-4.11.1.jar" "%WAR_DIR%\WEB-INF\lib\" >nul
 copy /y "%M2_REPO%\org\mongodb\bson-record-codec\4.11.1\bson-record-codec-4.11.1.jar" "%WAR_DIR%\WEB-INF\lib\" >nul
 copy /y "%M2_REPO%\org\mindrot\jbcrypt\0.4\jbcrypt-0.4.jar" "%WAR_DIR%\WEB-INF\lib\" >nul
+copy /y "%M2_REPO%\com\fasterxml\jackson\core\jackson-databind\2.17.2\jackson-databind-2.17.2.jar" "%WAR_DIR%\WEB-INF\lib\" >nul
+copy /y "%M2_REPO%\com\fasterxml\jackson\core\jackson-core\2.17.2\jackson-core-2.17.2.jar" "%WAR_DIR%\WEB-INF\lib\" >nul
+copy /y "%M2_REPO%\com\fasterxml\jackson\core\jackson-annotations\2.17.2\jackson-annotations-2.17.2.jar" "%WAR_DIR%\WEB-INF\lib\" >nul
 
 copy /y src\main\webapp\WEB-INF\web.xml "%WAR_DIR%\WEB-INF\" >nul
 xcopy /s /y /q src\main\webapp\WEB-INF\views\* "%WAR_DIR%\WEB-INF\views\" >nul

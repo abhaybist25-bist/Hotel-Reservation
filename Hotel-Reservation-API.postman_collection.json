@@ -1,0 +1,502 @@
+{
+  "info": {
+    "_postman_id": "a9b8c7d6-e5f4-4321-b012-3456789abcde",
+    "name": "Hotel Reservation System REST API",
+    "description": "Full CRUD REST API collection for the Hotel Reservation System.\n\n### Authentication\nAuthentication is session-based. Use **POST /api/auth/login** to sign in. Postman automatically stores and passes the `JSESSIONID` cookie in subsequent requests.\n\n### Seeded Test Credentials\n- **Admin**: `admin@hotelreservation.com` / `Admin@12345`\n- **Hotel Partner 1**: `partner@grandazure.com` / `Partner@123`\n- **Hotel Partner 2**: `partner@oceanbreeze.com` / `Partner@123`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/hotel-reservation-system",
+      "type": "string"
+    },
+    {
+      "key": "hotelId",
+      "value": "6aec5188d76d571f10e60cfe",
+      "type": "string"
+    },
+    {
+      "key": "roomId",
+      "value": "6aec5188d76d571f10e60cf0",
+      "type": "string"
+    },
+    {
+      "key": "bookingId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login - Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@hotelreservation.com\",\n  \"password\": \"Admin@12345\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Authenticates as System Administrator and initializes JSESSIONID session cookie."
+          }
+        },
+        {
+          "name": "Login - Hotel Partner",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"partner@grandazure.com\",\n  \"password\": \"Partner@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Authenticates as Hotel Manager and initializes session."
+          }
+        },
+        {
+          "name": "Login - Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@example.com\",\n  \"password\": \"Customer@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Authenticates as Customer to perform booking reservations."
+          }
+        },
+        {
+          "name": "Register - Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountType\": \"customer\",\n  \"fullName\": \"Alice Johnson\",\n  \"email\": \"alice.johnson@example.com\",\n  \"phone\": \"9876543210\",\n  \"password\": \"Customer@123\",\n  \"confirmPassword\": \"Customer@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Registers a new customer account."
+          }
+        },
+        {
+          "name": "Register - Hotel Partner",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountType\": \"hotel\",\n  \"fullName\": \"Vikram Malhotra\",\n  \"email\": \"vikram@royalsuites.com\",\n  \"phone\": \"9123456780\",\n  \"password\": \"Partner@123\",\n  \"confirmPassword\": \"Partner@123\",\n  \"hotelName\": \"Royal Suites Hotel & Spa\",\n  \"hotelCity\": \"Jaipur\",\n  \"hotelAddress\": \"15 Palace Road, C-Scheme, Jaipur\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Registers a new Hotel Partner and simultaneously creates and links their Hotel property."
+          }
+        },
+        {
+          "name": "Get Current Session Profile (/me)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "me"]
+            },
+            "description": "Returns current logged in user details based on active session cookie."
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
+            },
+            "description": "Destroys user session."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Hotels",
+      "item": [
+        {
+          "name": "List All Active Hotels (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/hotels",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hotels"]
+            },
+            "description": "Retrieves all registered active hotels with details."
+          }
+        },
+        {
+          "name": "Get Hotel Details By ID (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/hotels/{{hotelId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hotels", "{{hotelId}}"]
+            },
+            "description": "Retrieves single hotel information including amenities, star rating, address, and check-in/out times."
+          }
+        },
+        {
+          "name": "Get Hotel Rooms (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/hotels/{{hotelId}}/rooms",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hotels", "{{hotelId}}", "rooms"]
+            },
+            "description": "Retrieves all active rooms belonging to a specific hotel."
+          }
+        },
+        {
+          "name": "Update Hotel Details (PUT)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Grand Azure Luxury Resort & Spa\",\n  \"description\": \"Premier beachfront resort with luxury suites, private beach access, and international dining.\",\n  \"address\": \"100 Marine Drive\",\n  \"city\": \"Goa\",\n  \"state\": \"Goa\",\n  \"country\": \"India\",\n  \"phone\": \"+91-832-555-0199\",\n  \"email\": \"reservations@grandazure.com\",\n  \"starRating\": 5,\n  \"amenities\": [\n    \"Free High-Speed Wi-Fi\",\n    \"Infinity Pool\",\n    \"24/7 Room Service\",\n    \"Air Conditioning\",\n    \"Luxury Spa & Wellness\",\n    \"Free Valet Parking\",\n    \"Airport Shuttle\"\n  ],\n  \"imageUrl\": \"assets/images/hero-hotel.svg\",\n  \"checkInTime\": \"14:00\",\n  \"checkOutTime\": \"11:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/hotels/{{hotelId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hotels", "{{hotelId}}"]
+            },
+            "description": "Updates hotel profile information. Requires Admin or owning Hotel Partner login."
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Rooms",
+      "item": [
+        {
+          "name": "List Rooms (GET - All Active)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms"]
+            },
+            "description": "Lists all available active rooms across hotels."
+          }
+        },
+        {
+          "name": "Search Available Rooms (GET - With Filters)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms?checkIn=2027-04-10&checkOut=2027-04-15&guests=2&type=DELUXE&minPrice=100&maxPrice=500",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms"],
+              "query": [
+                {
+                  "key": "checkIn",
+                  "value": "2027-04-10"
+                },
+                {
+                  "key": "checkOut",
+                  "value": "2027-04-15"
+                },
+                {
+                  "key": "guests",
+                  "value": "2"
+                },
+                {
+                  "key": "type",
+                  "value": "DELUXE"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "100"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "500"
+                }
+              ]
+            },
+            "description": "Searches for rooms available between dates, ensuring no conflict with existing bookings."
+          }
+        },
+        {
+          "name": "Get Room By ID (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms/{{roomId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms", "{{roomId}}"]
+            },
+            "description": "Retrieves details of a specific room."
+          }
+        },
+        {
+          "name": "Create Room (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomNumber\": \"405\",\n  \"roomType\": \"EXECUTIVE_SUITE\",\n  \"title\": \"Executive Panoramic Ocean Suite\",\n  \"description\": \"Top-floor suite featuring panoramic sea views, king-size bed, private balcony, jacuzzi, and butler service.\",\n  \"pricePerNight\": 349.99,\n  \"capacity\": 3,\n  \"amenities\": [\n    \"High-Speed Wi-Fi\",\n    \"Ocean View Balcony\",\n    \"Jacuzzi\",\n    \"King Bed\",\n    \"Smart TV 65-inch\",\n    \"Mini Bar\",\n    \"Complimentary Breakfast\"\n  ],\n  \"imageUrl\": \"assets/images/rooms/suite-1.svg\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms"]
+            },
+            "description": "Creates a new room. Requires login as Admin or Hotel Partner (automatically associated with partner's hotel)."
+          }
+        },
+        {
+          "name": "Update Room (PUT)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Executive Panoramic Ocean Suite\",\n  \"pricePerNight\": 379.99,\n  \"capacity\": 4,\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms/{{roomId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms", "{{roomId}}"]
+            },
+            "description": "Updates details of an existing room. Requires Admin or owning Hotel Partner login."
+          }
+        },
+        {
+          "name": "Delete Room (DELETE)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms/{{roomId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms", "{{roomId}}"]
+            },
+            "description": "Deletes room if no reservation history exists. Requires Admin or owning Hotel Partner login."
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Bookings",
+      "item": [
+        {
+          "name": "Create Booking (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": \"{{roomId}}\",\n  \"checkIn\": \"2027-05-10\",\n  \"checkOut\": \"2027-05-15\",\n  \"numberOfGuests\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings"]
+            },
+            "description": "Creates a reservation with concurrent lock protection and automated tax calculation. Must be logged in as Customer."
+          }
+        },
+        {
+          "name": "List Bookings (GET - Scoped by Role)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings"]
+            },
+            "description": "Returns bookings filtered according to role: Customer sees own, Hotel sees theirs, Admin sees all."
+          }
+        },
+        {
+          "name": "Get Booking Details By ID (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings", "{{bookingId}}"]
+            },
+            "description": "Retrieves single reservation details with customer and room breakdown."
+          }
+        },
+        {
+          "name": "Update Booking Status (PUT)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newStatus\": \"CHECKED_IN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/{{bookingId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings", "{{bookingId}}", "status"]
+            },
+            "description": "Updates booking status (CONFIRMED -> CHECKED_IN -> CHECKED_OUT or CANCELLED). Requires Admin or Hotel Partner login."
+          }
+        },
+        {
+          "name": "Cancel Booking (DELETE)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings", "{{bookingId}}"]
+            },
+            "description": "Cancels a confirmed reservation and immediately releases dates for other guests."
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Users (Admin)",
+      "item": [
+        {
+          "name": "List Customers (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/users?page=1&pageSize=20&keyword=",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                },
+                {
+                  "key": "keyword",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Lists customer accounts with search and pagination. Requires Admin login."
+          }
+        },
+        {
+          "name": "Get User By ID (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            },
+            "description": "Retrieves profile details of a specific user. Requires Admin login."
+          }
+        },
+        {
+          "name": "Get My Profile (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/users/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "me"]
+            },
+            "description": "Returns current logged in user profile."
+          }
+        }
+      ]
+    }
+  ]
+}

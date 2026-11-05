@@ -308,5 +308,46 @@ public class BookingService {
     public long countBookingsForHotel(ObjectId hotelId) {
         return bookingDAO.countByHotelId(hotelId);
     }
+
+    /**
+     * Retrieves all bookings in the system (admin use, up to 500 most recent).
+     */
+    public List<Booking> getAllBookings() {
+        List<Booking> bookings = bookingDAO.findAll(0, 500, null, null);
+        for (Booking b : bookings) {
+            populateBookingDetails(b);
+        }
+        return bookings;
+    }
+
+    /**
+     * Updates a booking status (ADMIN or HOTEL manager).
+     * Delegates to BookingDAO directly since AdminService.updateBookingStatus() does not expose
+     * the full transition table externally.
+     *
+     * @param bookingIdString the booking ObjectId hex string
+     * @param newStatus       the target BookingStatus
+     * @param requestingUserId the acting user (for audit)
+     * @param isAdmin         whether the acting user is an ADMIN
+     * @return true if the update succeeded
+     * @throws IllegalArgumentException if the booking is not found
+     */
+    public boolean updateBookingStatus(String bookingIdString, BookingStatus newStatus,
+                                       ObjectId requestingUserId, boolean isAdmin) {
+        if (bookingIdString == null || !org.bson.types.ObjectId.isValid(bookingIdString)) {
+            throw new IllegalArgumentException("Invalid booking ID.");
+        }
+        org.bson.types.ObjectId bookingId = new org.bson.types.ObjectId(bookingIdString);
+        Booking booking = bookingDAO.findById(bookingId);
+        if (booking == null) {
+            throw new IllegalArgumentException("Booking not found.");
+        }
+        boolean updated = bookingDAO.updateStatus(bookingId, newStatus);
+        if (updated) {
+            LOGGER.info("Booking " + booking.getBookingNumber() + " status changed to " + newStatus +
+                    " by " + (isAdmin ? "Admin" : requestingUserId));
+        }
+        return updated;
+    }
 }
 

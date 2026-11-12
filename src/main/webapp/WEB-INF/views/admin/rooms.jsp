@@ -55,7 +55,7 @@
                                     <tr>
                                         <td><strong>#${room.roomNumber}</strong></td>
                                         <td>
-                                            <img src="${pageContext.request.contextPath}/${room.imageUrl}" alt="${room.title}" style="width: 50px; height: 35px; object-fit: cover; border-radius: var(--radius-sm);">
+                                            <img src="${pageContext.request.contextPath}/${not empty room.imageUrl ? room.imageUrl : 'assets/images/room-suite-1.svg'}" onerror="this.src='${pageContext.request.contextPath}/assets/images/room-suite-1.svg'" alt="${room.title}" style="width: 55px; height: 38px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--admin-border);">
                                         </td>
                                         <td><span class="badge badge-confirmed">${room.roomType.displayName}</span></td>
                                         <td>

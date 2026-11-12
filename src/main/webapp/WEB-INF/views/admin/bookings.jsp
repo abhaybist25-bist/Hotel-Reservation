@@ -128,6 +128,21 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Pagination Bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.75rem; border-top: 1px solid var(--admin-border); background-color: #FAFBFD;">
+                <div style="font-size: 0.85rem; color: var(--admin-text-muted);">
+                    Showing Page <strong>${currentPage}</strong>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <c:if test="${currentPage > 1}">
+                        <a href="${pageContext.request.contextPath}/admin/bookings?page=${currentPage - 1}&status=${statusFilter}&q=${keyword}" class="btn btn-outline-primary btn-sm">&larr; Previous</a>
+                    </c:if>
+                    <c:if test="${bookings != null and bookings.size() >= 15}">
+                        <a href="${pageContext.request.contextPath}/admin/bookings?page=${currentPage + 1}&status=${statusFilter}&q=${keyword}" class="btn btn-outline-primary btn-sm">Next &rarr;</a>
+                    </c:if>
+                </div>
+            </div>
         </div>
     </div>
 </div>

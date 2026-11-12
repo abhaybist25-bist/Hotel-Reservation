@@ -585,6 +585,42 @@
   color: #FFFFFF;
 }
 
+.btn-block {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   Audit & Pricing Breakdown Details
+   -------------------------------------------------------------------------- */
+.price-breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.price-breakdown-table td {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--admin-border-light);
+  font-size: 0.925rem;
+  color: var(--admin-text-main);
+}
+
+.price-breakdown-table td.amount {
+  text-align: right;
+  font-weight: 600;
+}
+
+.price-breakdown-table tr.total-row td {
+  border-top: 2px solid var(--admin-border);
+  border-bottom: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--admin-primary);
+  padding-top: 1rem;
+}
+
 /* --------------------------------------------------------------------------
    Forms & Inputs inside Admin
    -------------------------------------------------------------------------- */

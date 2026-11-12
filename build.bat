@@ -25,7 +25,7 @@ if not defined JAVA_HOME (
     if exist "C:\Program Files\Java\jdk-25" (
         set "JAVA_HOME=C:\Program Files\Java\jdk-25"
     ) else (
-        echo [ERROR] Please set JAVA_HOME to JDK 17+
+        echo [ERROR] Please set JAVA_HOME to JDK 25+
         exit /b 1
     )
 )
@@ -40,8 +40,8 @@ set "CP=%M2_REPO%\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.
 if not exist "target\classes" mkdir "target\classes"
 powershell -NoProfile -Command "(Get-ChildItem -Path src\main\java -Filter *.java -Recurse | Resolve-Path -Relative) | Set-Content target\sources.txt"
 
-echo [INFO] Compiling Java classes with target 17...
-"%JAVAC%" --release 17 -encoding UTF-8 -cp "%CP%" -d target\classes @target\sources.txt
+echo [INFO] Compiling Java classes with target 25...
+"%JAVAC%" --release 25 -encoding UTF-8 -cp "%CP%" -d target\classes @target\sources.txt
 if %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Compilation failed.
     exit /b 1
@@ -75,4 +75,3 @@ echo [INFO] Packaging target\hotel-reservation-system.war...
 echo ==============================================================================
 echo [SUCCESS] Package created: target\hotel-reservation-system.war
 echo ==============================================================================
-

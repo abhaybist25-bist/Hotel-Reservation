@@ -40,7 +40,7 @@
 
         <div class="footer-bottom">
             <div>&copy; 2026 The Grand Azure Hotel &amp; Suites. All Rights Reserved.</div>
-            <div>Powered by Java 17 Servlets, JSP &amp; MongoDB Community Server</div>
+            <div>Powered by Java 25 Servlets, JSP &amp; MongoDB Community Server</div>
         </div>
     </div>
 </footer>
@@ -48,10 +48,10 @@
 <!-- JavaScript Assets -->
 <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/booking.js"></script>
-<c:if test="${isAdminPage}">
+<c:set var="isPortalPage" value="${isAdminPage or requestScope.isAdminPage or isHotelPage or requestScope.isHotelPage or pageContext.request.servletPath.startsWith('/admin') or pageContext.request.servletPath.startsWith('/hotel') or pageContext.request.requestURI.contains('/admin') or pageContext.request.requestURI.contains('/hotel')}" />
+<c:if test="${isPortalPage}">
     <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
 </c:if>
 
 </body>
 </html>
-

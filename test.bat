@@ -33,7 +33,7 @@ copy /y src\main\resources\application.properties target\classes\ >nul 2>&1
 powershell -NoProfile -Command "(Get-ChildItem -Path src\test\java -Filter *.java -Recurse | Resolve-Path -Relative) | Set-Content target\test_sources.txt"
 
 echo [INFO] Compiling unit test suites...
-"%JAVAC%" --release 17 -encoding UTF-8 -cp "%CP%" -d target\test-classes @target\test_sources.txt
+"%JAVAC%" --release 25 -encoding UTF-8 -cp "%CP%" -d target\test-classes @target\test_sources.txt
 if %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Test compilation failed.
     exit /b 1
@@ -41,4 +41,3 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo [INFO] Executing JUnit 4 test runner...
 "%JAVA%" -cp "%CP%" org.junit.runner.JUnitCore com.hotelreservation.DateUtilTest com.hotelreservation.BookingCostBreakdownTest com.hotelreservation.PasswordUtilTest com.hotelreservation.ValidationUtilTest com.hotelreservation.RoleAndStatusTransitionTest com.hotelreservation.BookingServiceLogicTest com.hotelreservation.HotelServiceTest
-

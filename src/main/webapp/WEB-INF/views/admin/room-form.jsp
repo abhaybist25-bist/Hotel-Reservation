@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="pageTitle" value="${isEdit ? 'Edit Room' : 'Add New Room'}" />
-<c:set var="isAdminPage" value="true" />
-<c:set var="adminSection" value="${isEdit ? 'rooms' : 'add-room'}" />
+<c:set var="pageTitle" value="${isEdit ? 'Edit Room' : 'Add New Room'}" scope="request" />
+<c:set var="isAdminPage" value="true" scope="request" />
+<c:set var="adminSection" value="${isEdit ? 'rooms' : 'add-room'}" scope="request" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/common/navbar.jsp" />
 

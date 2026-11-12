@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="pageTitle" value="Audit Booking #${booking.bookingNumber}" />
-<c:set var="isAdminPage" value="true" />
-<c:set var="adminSection" value="bookings" />
+<c:set var="pageTitle" value="Audit Booking #${booking.bookingNumber}" scope="request" />
+<c:set var="isAdminPage" value="true" scope="request" />
+<c:set var="adminSection" value="bookings" scope="request" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/common/navbar.jsp" />
 

@@ -15,7 +15,8 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
-    <c:if test="${isAdminPage}">
+    <c:set var="isPortalPage" value="${isAdminPage or requestScope.isAdminPage or isHotelPage or requestScope.isHotelPage or pageContext.request.servletPath.startsWith('/admin') or pageContext.request.servletPath.startsWith('/hotel') or pageContext.request.requestURI.contains('/admin') or pageContext.request.requestURI.contains('/hotel')}" />
+    <c:if test="${isPortalPage}">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
     </c:if>
 

@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="pageTitle" value="Customer Directory" />
-<c:set var="isAdminPage" value="true" />
-<c:set var="adminSection" value="customers" />
+<c:set var="pageTitle" value="Customer Directory" scope="request" />
+<c:set var="isAdminPage" value="true" scope="request" />
+<c:set var="adminSection" value="customers" scope="request" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/common/navbar.jsp" />
 

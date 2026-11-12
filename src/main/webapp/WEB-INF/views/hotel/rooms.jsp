@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="pageTitle" value="Room Inventory - ${hotel.name}" />
-<c:set var="isAdminPage" value="true" />
+<c:set var="pageTitle" value="Room Inventory - ${hotel.name}" scope="request" />
+<c:set var="isHotelPage" value="true" scope="request" />
+<c:set var="hotelSection" value="rooms" scope="request" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 <div class="admin-layout">

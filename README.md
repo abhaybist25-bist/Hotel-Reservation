@@ -1,11 +1,11 @@
 # The Grand Azure Hotel & Suites - Enterprise Web-based Hotel Reservation System
 
-[![Java Version](https://img.shields.io/badge/Java-17%20LTS-007396?logo=java&logoColor=white)](https://www.oracle.com/java/)
+[![Java Version](https://img.shields.io/badge/Java-25%20LTS-007396?logo=java&logoColor=white)](https://www.oracle.com/java/)
 [![Servlet API](https://img.shields.io/badge/Servlet-4.0%20(Tomcat%209)-F8DC75?logo=apachetomcat&logoColor=black)](https://tomcat.apache.org/)
 [![Database](https://img.shields.io/badge/Database-MongoDB%20Community%20Server-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![License](https://img.shields.io/badge/Architecture-MVC%20Enterprise-blue)]()
 
-A complete, production-grade, and responsive web-based **Hotel Reservation System** built using **Java 17**, **Java Servlets (`javax.servlet.*`)**, **JavaServer Pages (JSP)**, **JSTL**, and **MongoDB**. Designed and structured for a Bachelor of Engineering in Computer Science capstone / term project.
+A complete, production-grade, and responsive web-based **Hotel Reservation System** built using **Java 25**, **Java Servlets (`javax.servlet.*`)**, **JavaServer Pages (JSP)**, **JSTL**, and **MongoDB**. Designed and structured for a Bachelor of Engineering in Computer Science capstone / term project.
 
 ---
 
@@ -100,7 +100,7 @@ The project strictly follows the **Model-View-Controller (MVC)** architectural p
 
 | Layer | Component | Version / Specification | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Language** | Java | Java 17 LTS | Modern language features, records, pattern matching |
+| **Language** | Java | Java 25 LTS | Modern language features, records, pattern matching |
 | **Web Container** | Apache Tomcat | 9.0.x (`javax.servlet.*`) | Enterprise Servlet 4.0 / JSP 2.3 container |
 | **Presentation** | JSP + JSTL + EL | 2.3 / 1.2 | Server-side dynamic HTML rendering |
 | **Database** | MongoDB | Community Server 8.x / 7.x / 6.x | Schemaless BSON document persistence |
@@ -382,7 +382,7 @@ hotel-reservation-system/
 ## 9. Prerequisites & Environment Setup
 
 ### Required Software
-1. **JDK 17 LTS or higher**: Verify with `java -version` and `javac -version`.
+1. **JDK 25 LTS or higher**: Verify with `java -version` and `javac -version`.
 2. **MongoDB Community Server (v6.0 - v8.x)**: Default port `27017`.
 3. **MongoDB Compass**: Official visual GUI.
 4. **Apache Tomcat 9.0.x**: Standard servlet container supporting `javax.servlet.*`.
@@ -546,4 +546,3 @@ Run `.\test.bat` or `mvn test` to execute:
 
 **Q10: Why did you use `javax.servlet.*` instead of `jakarta.servlet.*`?**  
 *Answer:* Apache Tomcat 9 implements the Java Servlet 4.0 specification, which uses the `javax.servlet` namespace. Tomcat 10+ transitioned to the Jakarta EE `jakarta.servlet` namespace. To maintain full compatibility with Tomcat 9, `javax.servlet:javax.servlet-api:4.0.1` is used consistently throughout.
-

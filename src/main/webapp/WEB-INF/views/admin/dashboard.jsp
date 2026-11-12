@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="pageTitle" value="Administrator Dashboard" />
-<c:set var="isAdminPage" value="true" />
-<c:set var="adminSection" value="dashboard" />
+<c:set var="pageTitle" value="Administrator Dashboard" scope="request" />
+<c:set var="isAdminPage" value="true" scope="request" />
+<c:set var="adminSection" value="dashboard" scope="request" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/common/navbar.jsp" />
 
@@ -33,7 +33,7 @@
                 <div class="stat-info">
                     <h3>Total Rooms</h3>
                     <div class="stat-value">${stats.totalRooms}</div>
-                    <span style="font-size:0.75rem; color:var(--color-success);">${stats.activeRooms} Active</span>
+                    <div class="stat-label" style="color:#059669; font-weight:600;">${stats.activeRooms} Active</div>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
                 <div class="stat-info">
                     <h3>Total Bookings</h3>
                     <div class="stat-value">${stats.totalBookings}</div>
-                    <span style="font-size:0.75rem; color:var(--color-text-muted);">Historical count</span>
+                    <div class="stat-label">Historical count</div>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                 <div class="stat-info">
                     <h3>Upcoming Stays</h3>
                     <div class="stat-value">${stats.upcomingBookings}</div>
-                    <span style="font-size:0.75rem; color:var(--color-success);">Confirmed</span>
+                    <div class="stat-label" style="color:#059669; font-weight:600;">Confirmed</div>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
                 <div class="stat-info">
                     <h3>Cancelled</h3>
                     <div class="stat-value">${stats.cancelledBookings}</div>
-                    <span style="font-size:0.75rem; color:var(--color-danger);">Released dates</span>
+                    <div class="stat-label" style="color:#DC2626; font-weight:600;">Released dates</div>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
                 <div class="stat-info">
                     <h3>Customers</h3>
                     <div class="stat-value">${stats.registeredCustomers}</div>
-                    <span style="font-size:0.75rem; color:var(--color-text-muted);">Registered accounts</span>
+                    <div class="stat-label">Registered accounts</div>
                 </div>
             </div>
 
@@ -78,7 +78,7 @@
                 <div class="stat-info">
                     <h3>Total Revenue</h3>
                     <div class="stat-value">$<fmt:formatNumber value="${stats.totalRevenue}" pattern="#,##0" /></div>
-                    <span style="font-size:0.75rem; color:var(--color-success);">From non-cancelled stays</span>
+                    <div class="stat-label" style="color:#059669; font-weight:600;">Active Stays</div>
                 </div>
             </div>
         </div>
